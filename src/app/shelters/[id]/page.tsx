@@ -28,7 +28,7 @@ export default function Page() {
         <h1>{shelter.name}</h1>
       </div>
       <p>{shelter.description}</p>
-      <h3 className="mt-8">Pets</h3>
+      <h3 className="mt-8 mb-4 text-center">Pets</h3>
 
       <div className="flex w-full flex-wrap gap-4 bg-[#9FD8F6] h-full wfull justify-center items-center p-2 pt-4 pb-4">
         {shelter.pets.map((pet) => (

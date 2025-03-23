@@ -3,22 +3,23 @@
   themes: false;
 }
 
+/* globals.css */
+@font-face {
+  font-family: 'Handjet';
+  src: url('/fonts/Handjet.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 :root {
   --background: #FAFAF0;
   --foreground: #33272A;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -30,7 +31,6 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
   color: #33272A;
   letter-spacing: 0%;
   vertical-align: middle; 
@@ -43,9 +43,20 @@ h1, h2 {
 }
 
 h3 {
-  font-family: Handjet;
   font-weight: 500;
   font-size: 20px;
   line-height: 100%;
-  text-align: center;  
+}
+
+p {
+  color: #33272A;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 100%;
+}
+
+@layer utilities {
+  .shadow-custom {
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.1);
+  }
 }
