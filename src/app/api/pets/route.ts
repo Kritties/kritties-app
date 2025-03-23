@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { createAnimal, getAllAnimals } from "@/backend/services/animals";
+import { createPet, getAllPets } from "@/backend/services/pets";
 
 export async function GET() {
-    const animals = await getAllAnimals();
+    const animals = await getAllPets();
     return NextResponse.json(animals);
 }
 
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
         );
     }
 
-    const animal = await createAnimal({
+    const animal = await createPet({
         name,
         age,
         description,
