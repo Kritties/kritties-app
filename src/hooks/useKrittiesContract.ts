@@ -23,7 +23,7 @@ export function useDonationContract(contractAddress: Address) {
                 chain: baseSepolia,
                 transport: custom(window.ethereum!),
             }),
-        [!!window.ethereum]
+        [!!window.ethereum, userAddress]
     );
 
     const contract = useMemo(
