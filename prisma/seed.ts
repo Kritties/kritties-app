@@ -2,6 +2,7 @@ import { prisma } from "../src/backend/lib/prisma";
 import { createPet } from "../src/backend/services/pets";
 import { createShelter } from "../src/backend/services/shelters";
 import { createUser } from "../src/backend/services/users";
+import { createDonation } from "../src/backend/services/donations";
 
 async function main() {
   const shelter1 = await createShelter({
@@ -29,82 +30,102 @@ async function main() {
     contractAddress: "0x1234567890abcdef",
   });
 
-  createPet({
-    name: "Liza",
-    imageUrl: "http://localhost:3000/mock-data/pet-1.png",
-    age: 3,
-    description:
-      "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
-    shelterId: shelter3.id,
-  });
+  const pets = await Promise.all([
+    createPet({
+      name: "Liza",
+      imageUrl: "http://localhost:3000/mock-data/pet-1.png",
+      age: 3,
+      description: "Perra juguetona y activa",
+      shelterId: shelter3.id,
+    }),
+    createPet({
+      name: "Candy",
+      imageUrl: "http://localhost:3000/mock-data/pet-2.png",
+      age: 1,
+      description: "Dulce y amigable",
+      shelterId: shelter3.id,
+    }),
+    createPet({
+      name: "Wero",
+      imageUrl: "http://localhost:3000/mock-data/pet-3.png",
+      age: 8,
+      description: "Mayor pero muy sabio y tranquilo",
+      shelterId: shelter3.id,
+    }),
+    createPet({
+      name: "Tom",
+      imageUrl: "http://localhost:3000/mock-data/pet-4.png",
+      age: 3,
+      description: "Activo y leal",
+      shelterId: shelter3.id,
+    }),
+    createPet({
+      name: "Bongo",
+      imageUrl: "http://localhost:3000/mock-data/pet-5.png",
+      age: 6,
+      description: "Divertido y curioso",
+      shelterId: shelter3.id,
+    }),
+    createPet({
+      name: "Luna",
+      age: 3,
+      description: "Perrita juguetona",
+      shelterId: shelter1.id,
+      imageUrl: "https://example.com/luna.jpg",
+    }),
+    createPet({
+      name: "Simón",
+      age: 2,
+      description: "Gatito curioso",
+      shelterId: shelter2.id,
+      imageUrl: "https://example.com/simon.jpg",
+    }),
+  ]);
 
-  createPet({
-    name: "Candy",
-    imageUrl: "http://localhost:3000/mock-data/pet-2.png",
-    age: 1,
-    description:
-      "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
-    shelterId: shelter3.id,
-  });
-
-  createPet({
-    name: "Wero",
-    imageUrl: "http://localhost:3000/mock-data/pet-3.png",
-    age: 8,
-    description:
-      "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
-    shelterId: shelter3.id,
-  });
-
-  createPet({
-    name: "Tom",
-    imageUrl: "http://localhost:3000/mock-data/pet-4.png",
-    age: 3,
-    description:
-      "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
-    shelterId: shelter3.id,
-  });
-
-  createPet({
-    name: "Bongo",
-    imageUrl: "http://localhost:3000/mock-data/pet-5.png",
-    age: 6,
-    description:
-      "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
-    shelterId: shelter3.id,
-  });
-
-  await createPet({
-    name: "Luna",
-    age: 3,
-    description: "Perrita juguetona",
-    shelterId: shelter1.id,
-    imageUrl: "https://example.com/luna.jpg",
-  });
-
-  await createPet({
-    name: "Simón",
-    age: 2,
-    description: "Gatito curioso",
-    shelterId: shelter2.id,
-    imageUrl: "https://example.com/simon.jpg",
-  });
-
-  await createUser({
+  const user1 = await createUser({
     name: "María",
     walletAddress: "0x1234567890abcdef",
     email: "maria@example.com",
   });
 
-  await createUser({
+  const user2 = await createUser({
     name: "Carlos",
     walletAddress: "0xabcdef1234567890",
+  });
+
+  // 💸 Donaciones
+  await createDonation({
+    userId: user1.id,
+    petId: pets[0].id,
+    amount: 25.5,
+    transactionId: "0xtx01",
+  });
+
+  await createDonation({
+    userId: user1.id,
+    petId: pets[1].id,
+    amount: 10,
+    transactionId: "0xtx02",
+  });
+
+  await createDonation({
+    userId: user2.id,
+    petId: pets[0].id,
+    amount: 50,
+    transactionId: "0xtx03",
+  });
+
+  await createDonation({
+    userId: user2.id,
+    petId: pets[6].id, // Simón
+    amount: 15,
+    transactionId: "0xtx04",
   });
 }
 
 main()
   .then(() => {
-    console.log("🌱 Seed con servicios completado");
+    console.log("🌱 Seed con donaciones completado");
   })
   .catch((e) => {
     console.error(e);
