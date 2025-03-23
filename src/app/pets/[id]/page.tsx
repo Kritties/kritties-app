@@ -1,4 +1,5 @@
 "use client";
+import AttributeCard from "@/components/attribute-card";
 import { useGetPetById } from "./getPetByid";
 import { usePathname } from "next/navigation";
 
@@ -13,16 +14,27 @@ export default function Page() {
   }
   return (
     <div className="container mx-auto">
-      <div className="flex items-center space-x-4  p-4">
-        <img
-          className="w-[60px] h-[60px]"
-          src={pet.imageUrl}
-          alt={pet.name}
-        />
-        <h1>{pet.name}</h1>
+      <img
+        className="w-full h-full max-h-[400px] object-cover rounded-md"
+        src={pet.imageUrl}
+        alt={pet.name}
+      />
+
+      <div className="p-4">
+        <h2 className="mb-4 align-baseline">{pet.name}</h2>
+
+        <div className="grid grid-cols-2 gap-4">
+          <AttributeCard
+            attribute={{ name: "Age", value: pet.age.toString() }}
+          />
+          <AttributeCard attribute={{ name: "Sex", value: "Male" }} />
+          <AttributeCard attribute={{ name: "Weight", value: "30 KG" }} />
+          <AttributeCard attribute={{ name: "Breed", value: "Half-breed" }} />
+        </div>
+
+        <h3 className="mt-8 align-baseline">About {pet.name}</h3>
+        <p>{pet.description}</p>
       </div>
-      <p>{pet.description}</p>
-      <h3 className="mt-8">{pet.name}</h3>
     </div>
   );
 }
