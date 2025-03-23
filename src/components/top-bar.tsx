@@ -5,10 +5,10 @@ import PixelButton from "./pixel-button";
 
 export default function Topbar() {
     return (
-        <div className="navbar bg-base-100 shadow-sm">
+        <div className="navbar bg-transparent">
             <div className="flex-none">
                 <PixelButton >
-                    <img src="/assets/home.svg" alt="Inicio" className="w-4 h-4" />
+                    <img src="/assets/arrow-left.svg" alt="Inicio" className="w-5 h-5" />
                 </PixelButton>
             </div>
             <div className="flex-1">
