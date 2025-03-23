@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* globals.css */
+@font-face {
+  font-family: 'Handjet';
+  src: url('/fonts/Handjet.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 :root {
   --background: #FAFAF0;
@@ -7,7 +15,6 @@
 }
 
 body {
-  font-family: "Handjet", cursive;
   background: var(--background);
   color: var(--foreground);
   margin: 0;
@@ -39,6 +46,7 @@ h3 {
 }
 
 p {
+  color: #33272A;
   font-weight: 400;
   font-size: 1rem;
   line-height: 100%;

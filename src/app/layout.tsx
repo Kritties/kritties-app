@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import { Handjet } from "next/font/google";
 import "./globals.css";
 
-const hendjet = Handjet({
-  subsets: ["latin"],
-});
 
 
 export const metadata: Metadata = {
@@ -19,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${hendjet.className}`}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
