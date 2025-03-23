@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Web3Provider } from "./providers";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import BottomBar from "@/components/bottom-bar";
+import Topbar from "@/components/top-bar";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -31,7 +31,7 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 <Web3Provider>
-                  <ConnectButton />
+                  <Topbar />
                   {children}
                   <BottomBar />
                 </Web3Provider>
