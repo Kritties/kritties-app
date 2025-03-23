@@ -1,5 +1,5 @@
 import { prisma } from "../src/backend/lib/prisma";
-import { createAnimal } from "../src/backend/services/animals";
+import { createPet } from "../src/backend/services/pets";
 import { createShelter } from "../src/backend/services/shelters";
 import { createUser } from "../src/backend/services/users";
 
@@ -9,6 +9,7 @@ async function main() {
     location: 'Buenos Aires',
     description: 'Refugio para animales de calle',
     imageUrl: 'https://example.com/huellitas.jpg',
+    contractAddress: '0x1234567890abcdef',
   });
 
   const shelter2 = await createShelter({
@@ -16,9 +17,10 @@ async function main() {
     location: 'Córdoba',
     description: 'Refugio para animales de calle',
     imageUrl: 'https://example.com/patitas.jpg',
+    contractAddress: '0xabcdef1234567890',
   });
 
-  await createAnimal({
+  await createPet({
     name: 'Luna',
     age: 3,
     description: 'Perrita juguetona',
@@ -26,7 +28,7 @@ async function main() {
     imageUrl: 'https://example.com/luna.jpg',
   });
 
-  await createAnimal({
+  await createPet({
     name: 'Simón',
     age: 2,
     description: 'Gatito curioso',

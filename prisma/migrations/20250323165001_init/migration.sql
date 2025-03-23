@@ -3,18 +3,22 @@ CREATE TABLE "Shelter" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "location" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "imageUrl" TEXT,
+    "contractAddress" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
-CREATE TABLE "Animal" (
+CREATE TABLE "Pet" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "age" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
     "shelterId" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "Animal_shelterId_fkey" FOREIGN KEY ("shelterId") REFERENCES "Shelter" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Pet_shelterId_fkey" FOREIGN KEY ("shelterId") REFERENCES "Shelter" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable

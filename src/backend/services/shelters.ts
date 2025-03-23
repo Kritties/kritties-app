@@ -11,6 +11,7 @@ export async function createShelter(data: {
   location: string;
   imageUrl: string;
   description: string;
+  contractAddress: string;
 }) {
   return prisma.shelter.create({ data });
 }

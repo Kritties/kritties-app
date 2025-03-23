@@ -13,11 +13,12 @@ model Shelter {
   location  String
   description String
   imageUrl String?
-  animals   Animal[]
+  animals   Pet[]
+  contractAddress String
   createdAt DateTime @default(now())
 }
 
-model Animal {
+model Pet {
   id         String   @id @default(uuid())
   name       String
   age        Int
