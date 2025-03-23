@@ -5,11 +5,9 @@ export default function PixelButton({
   return (
     <button
       onClick={onClick}
-      className="size-16 p-2 rounded-md bg-pink-300 hover:bg-pink-400 active:bg-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500 transition shadow-md flex items-center justify-center"
+      className="size-16 p-2 rounded-md bg-pink-200 border-4 border-t-pink-100 border-l-pink-100 border-b-pink-300 border-r-pink-300 hover:border-pink-400 active:border-pink-500 focus:outline-none transition shadow-md flex items-center justify-center"
     >
-      <div className="size-12 bg-pink-200 rounded-md shadow-inner flex justify-center items-center">
-        {children}
-      </div>
+      {children}
     </button>
   );
 }
