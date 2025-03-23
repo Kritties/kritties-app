@@ -7,6 +7,8 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./swiper.css";
+import PixelButton from "@/components/pixel-button";
+import Icons from "@/components/icons";
 
 export default function PetsSwiper() {
   return (
@@ -18,7 +20,11 @@ export default function PetsSwiper() {
       modules={[Pagination]}
       className="mySwiper"
     >
-      <SwiperSlide>Slide 1</SwiperSlide>
+      <SwiperSlide>
+        <PixelButton>
+          <Icons.NextIcon />
+        </PixelButton>
+      </SwiperSlide>
       <SwiperSlide>Slide 2</SwiperSlide>
       <SwiperSlide>Slide 3</SwiperSlide>
       <SwiperSlide>Slide 4</SwiperSlide>
