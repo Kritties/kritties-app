@@ -12,11 +12,12 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "classnames": "2.5.1",
     "daisyui": "^5.0.9",
     "next": "15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@prisma/client": "^6.5.0",
     "swiper": "11.2.6"
   },
   "devDependencies": {
