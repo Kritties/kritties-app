@@ -5,14 +5,12 @@ import { Web3Provider } from "./providers";
 import BottomBar from "@/components/bottom-bar";
 import Topbar from "@/components/top-bar";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
+import { Handjet } from 'next/font/google';
 
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
+const handjet = Handjet({
+  subsets: ['latin'],
+  weight: ['400', '700'], // podés elegir los pesos que necesites
+  variable: '--font-handjet', // opcional: usar como CSS variable
 });
 
 export const metadata: Metadata = {
@@ -26,9 +24,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className={handjet.className}>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`antialiased`}
             >
                 <Web3Provider>
                   <Topbar />
