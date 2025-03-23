@@ -2,16 +2,14 @@
 
 import { useAccount, usePublicClient } from "wagmi";
 import { getContract, Address, createWalletClient, custom } from "viem";
-import abi from "../abis/kricoin.json"; // tu ABI importado
+import abi from "../abis/kricoin.json";
 import { useMemo } from "react";
 import { baseSepolia } from "viem/chains";
 
 export function useTokenContract(contractAddress: Address) {
     const { address: userAddress } = useAccount();
-    // const { data: walletClient } = useWalletClient();
     const publicClient = usePublicClient();
 
-    // eg: Metamask
     const walletClient = useMemo(
         () =>
             createWalletClient({
@@ -31,6 +29,8 @@ export function useTokenContract(contractAddress: Address) {
         [contractAddress, publicClient, walletClient]
     );
 
+    // ✅ READ FUNCTIONS
+
     async function getBalance(user: Address) {
         return contract.read.balanceOf([user]);
     }
@@ -39,22 +39,30 @@ export function useTokenContract(contractAddress: Address) {
         return contract.read.symbol();
     }
 
+    async function getAllowance(owner: Address, spender: Address) {
+        return contract.read.allowance([owner, spender]);
+    }
+
+    // ✅ WRITE FUNCTIONS (con espera de confirmación)
+
     async function transferTokens(to: Address, amount: bigint) {
         if (!walletClient) throw new Error("Wallet not connected");
-        return contract?.write?.transfer([to, amount], {
+
+        const hash = await contract.write.transfer([to, amount], {
             account: userAddress,
         });
+
+        return publicClient!.waitForTransactionReceipt({ hash });
     }
 
     async function approve(spender: Address, amount: bigint) {
         if (!walletClient) throw new Error("Wallet not connected");
-        return contract.write.approve([spender, amount], {
+
+        const hash = await contract.write.approve([spender, amount], {
             account: userAddress,
         });
-    }
 
-    async function getAllowance(owner: Address, spender: Address) {
-        return contract.read.allowance([owner, spender]);
+        return publicClient!.waitForTransactionReceipt({ hash });
     }
 
     return {
