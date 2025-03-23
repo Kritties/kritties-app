@@ -11,6 +11,8 @@ model Shelter {
   id        String   @id @default(uuid())
   name      String
   location  String
+  description String
+  imageUrl String?
   animals   Animal[]
   createdAt DateTime @default(now())
 }
@@ -20,6 +22,7 @@ model Animal {
   name       String
   age        Int
   description String
+  imageUrl String
   shelter    Shelter  @relation(fields: [shelterId], references: [id])
   shelterId  String
   createdAt  DateTime @default(now())

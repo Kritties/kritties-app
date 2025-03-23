@@ -11,6 +11,7 @@ export async function createAnimal(data: {
   age: number;
   description: string;
   shelterId: string;
+  imageUrl: string
 }) {
   return prisma.animal.create({ data });
 }
