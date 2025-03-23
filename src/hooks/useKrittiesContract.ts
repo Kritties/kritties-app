@@ -7,16 +7,14 @@ import {
     getContract,
     custom,
 } from "viem";
-import abi from "../abis/kritties.json"; // guardá este ABI en este archivo
+import abi from "../abis/kritties.json";
 import { useMemo } from "react";
 import { baseSepolia } from "viem/chains";
 
 export function useDonationContract(contractAddress: Address) {
     const { address: userAddress } = useAccount();
-    //const { data: walletClient } = useWalletClient();
     const publicClient = usePublicClient();
 
-    // eg: Metamask
     const walletClient = useMemo(
         () =>
             createWalletClient({
@@ -58,27 +56,36 @@ export function useDonationContract(contractAddress: Address) {
         return contract.read.getAllRegistries([tokenId]);
     }
 
-    // ✅ WRITE FUNCTIONS
+    // ✅ WRITE FUNCTIONS (esperando confirmaciones)
 
     async function safeMint(to: Address, uri: string) {
         if (!walletClient) throw new Error("Wallet not connected");
-        return contract.write.safeMint([to, uri], {
+
+        const hash = await contract.write.safeMint([to, uri], {
             account: userAddress,
         });
+
+        return publicClient!.waitForTransactionReceipt({ hash });
     }
 
     async function donate(tokenAddress: Address, amount: bigint) {
         if (!walletClient) throw new Error("Wallet not connected");
-        return contract.write.donate([tokenAddress, amount], {
+
+        const hash = await contract.write.donate([tokenAddress, amount], {
             account: userAddress,
         });
+
+        return publicClient!.waitForTransactionReceipt({ hash });
     }
 
     async function addRegistry(tokenId: bigint, registryUri: string) {
         if (!walletClient) throw new Error("Wallet not connected");
-        return contract.write.addRegistry([tokenId, registryUri], {
+
+        const hash = await contract.write.addRegistry([tokenId, registryUri], {
             account: userAddress,
         });
+
+        return publicClient!.waitForTransactionReceipt({ hash });
     }
 
     return {
