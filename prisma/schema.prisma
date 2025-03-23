@@ -27,6 +27,8 @@ model Pet {
   shelter    Shelter  @relation(fields: [shelterId], references: [id])
   shelterId  String
   createdAt  DateTime @default(now())
+
+  Donation Donation[]
 }
 
 model User {
@@ -35,4 +37,17 @@ model User {
   email     String?   @unique
   walletAddress String @unique
   createdAt DateTime @default(now())
+
+  Donation Donation[]
+}
+
+model Donation {
+  id            String   @id @default(uuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  pet           Pet      @relation(fields: [petId], references: [id])
+  petId         String
+  amount        Float
+  transactionId String   @unique
+  date          DateTime @default(now())
 }

@@ -2,6 +2,7 @@ import { prisma } from "../src/backend/lib/prisma";
 import { createPet } from "../src/backend/services/pets";
 import { createShelter } from "../src/backend/services/shelters";
 import { createUser } from "../src/backend/services/users";
+import { createDonation } from "../src/backend/services/donations";
 
 async function main() {
   const shelter1 = await createShelter({
