@@ -48,8 +48,6 @@ export default function PetsSwiper() {
     }
   }, [activeIndex]);
 
-  console.log(currentPets)
-
   return (
     <Swiper
       direction={"vertical"}
