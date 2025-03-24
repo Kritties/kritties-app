@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useAccount } from "wagmi";
 
 export default function BottomBar() {
+ const { address: userAddress } = useAccount();
     return (
         <div className="btm-nav fixed bottom-0 w-full bg-white shadow z-50 flex justify-between py-3 px-4 drop-shadow-md ">
             <Link
@@ -30,7 +32,7 @@ export default function BottomBar() {
                 />
             </Link>
             <Link
-                href="/profile"
+                href={`/users/${userAddress}`}
                 className="text-primary flex flex-col items-center justify-center gap-1"
             >
                 <div className="avatar">
