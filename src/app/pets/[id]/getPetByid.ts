@@ -1,4 +1,4 @@
-import { Pet } from "@/app/types/pet";
+import { Pet } from "@prisma/client";
 import React from "react";
 
 export function useGetPetById(id: string) {
