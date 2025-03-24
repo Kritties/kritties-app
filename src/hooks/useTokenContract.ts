@@ -40,7 +40,7 @@ export function useTokenContract(contractAddress: Address) {
     }
 
     async function getAllowance(owner: Address, spender: Address) {
-        return contract.read.allowance([owner, spender]);
+        return contract.read.allowance([owner, spender]) as Promise<bigint>;
     }
 
     // ✅ WRITE FUNCTIONS (con espera de confirmación)

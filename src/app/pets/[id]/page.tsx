@@ -2,6 +2,7 @@
 import AttributeCard from "@/components/attribute-card";
 import { useGetPetById } from "./getPetByid";
 import { usePathname } from "next/navigation";
+import { DonateModal } from "./donate-modal";
 
 export default function Page() {
   const pathname = usePathname();
@@ -15,7 +16,7 @@ export default function Page() {
   return (
     <div className="container mx-auto">
       <img
-        className="w-full h-full max-h-[400px] object-cover rounded-md"
+        className="w-full h-full max-h-[400px] object-cover"
         src={pet.imageUrl}
         alt={pet.name}
       />
@@ -34,6 +35,10 @@ export default function Page() {
 
         <h3 className="mt-8 align-baseline">About {pet.name}</h3>
         <p>{pet.description}</p>
+
+        <div className="flex justify-end mt-8">
+          <DonateModal pet={pet} />
+        </div>
       </div>
     </div>
   );
