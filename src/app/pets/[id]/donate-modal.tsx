@@ -2,8 +2,8 @@ import z from "zod";
 import { Address } from "viem";
 import { useState } from "react";
 import { useAccount } from "wagmi";
+import { Pet } from "@prisma/client";
 
-import { Pet } from "@/app/types/pet";
 import { Button } from "@/components/button";
 
 import { useDonationContract } from "@/hooks/useKrittiesContract";

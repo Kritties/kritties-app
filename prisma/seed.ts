@@ -2,7 +2,6 @@ import { prisma } from "../src/backend/lib/prisma";
 import { createPet } from "../src/backend/services/pets";
 import { createShelter } from "../src/backend/services/shelters";
 import { createUser } from "../src/backend/services/users";
-import { createDonation } from "../src/backend/services/donations";
 
 async function main() {
   const shelter1 = await createShelter({
@@ -32,7 +31,8 @@ async function main() {
 
   createPet({
     name: "Liza",
-    imageUrl: "http://localhost:3000/mock-data/pet-1.png",
+    nftImageUrl: "http://localhost:3000/pets/1-small.jpg",
+    mainImageUrl: "http://localhost:3000/pets/1-big.jpg",
     age: 3,
     description:
       "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -41,7 +41,8 @@ async function main() {
 
   createPet({
     name: "Candy",
-    imageUrl: "http://localhost:3000/mock-data/pet-2.png",
+    nftImageUrl: "http://localhost:3000/pets/2-small.jpg",
+    mainImageUrl: "http://localhost:3000/pets/2-big.jpg",
     age: 1,
     description:
       "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -50,7 +51,8 @@ async function main() {
 
   createPet({
     name: "Wero",
-    imageUrl: "http://localhost:3000/mock-data/pet-3.png",
+    nftImageUrl: "http://localhost:3000/pets/3-small.jpg",
+    mainImageUrl: "http://localhost:3000/pets/3-big.jpg",
     age: 8,
     description:
       "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -59,7 +61,8 @@ async function main() {
 
   createPet({
     name: "Tom",
-    imageUrl: "http://localhost:3000/mock-data/pet-4.png",
+    nftImageUrl: "http://localhost:3000/pets/1-small.jpg",
+    mainImageUrl: "http://localhost:3000/pets/1-big.jpg",
     age: 3,
     description:
       "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -68,7 +71,8 @@ async function main() {
 
   createPet({
     name: "Bongo",
-    imageUrl: "http://localhost:3000/mock-data/pet-5.png",
+    nftImageUrl: "http://localhost:3000/pets/2-small.jpg",
+    mainImageUrl: "http://localhost:3000/pets/2-big.jpg",
     age: 6,
     description:
       "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -80,7 +84,8 @@ async function main() {
     age: 3,
     description: "Perrita juguetona",
     shelterId: shelter1.id,
-    imageUrl: "https://example.com/luna.jpg",
+    nftImageUrl: "http://localhost:3000/pets/3-small.jpg",
+    mainImageUrl: "http://localhost:3000/pets/3-big.jpg",
   });
 
   await createPet({
@@ -88,7 +93,8 @@ async function main() {
     age: 2,
     description: "Gatito curioso",
     shelterId: shelter2.id,
-    imageUrl: "https://example.com/simon.jpg",
+    nftImageUrl: "http://localhost:3000/pets/1-small.jpg",
+    mainImageUrl: "http://localhost:3000/pets/1-big.jpg",
   });
 
   await createUser({
