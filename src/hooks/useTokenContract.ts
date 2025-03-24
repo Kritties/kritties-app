@@ -10,6 +10,8 @@ export function useTokenContract(contractAddress: Address) {
     const publicClient = usePublicClient();
     const { data: walletClient } = useWalletClient();
 
+    console.log("walletClient", walletClient)
+
     const contract = useMemo(
         () =>
             getContract({
