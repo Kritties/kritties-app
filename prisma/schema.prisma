@@ -16,6 +16,7 @@ model Shelter {
   animals   Pet[]
   contractAddress String
   createdAt DateTime @default(now())
+  ownerWallet String
 }
 
 model Pet {
@@ -32,23 +33,13 @@ model Pet {
   Donation Donation[]
 }
 
-model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String?   @unique
-  walletAddress String @unique
-  createdAt DateTime @default(now())
-
-  Donation Donation[]
-}
-
 model Donation {
   id            String   @id @default(uuid())
-  user          User     @relation(fields: [userId], references: [id])
-  userId        String
+  wallet        String
   pet           Pet      @relation(fields: [petId], references: [id])
   petId         String
   amount        Float
   transactionId String   @unique
   date          DateTime @default(now())
+  
 }
