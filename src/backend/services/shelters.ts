@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma';
 
 export async function getShelterById(id: string) {
@@ -6,6 +7,8 @@ export async function getShelterById(id: string) {
     include: { animals: true },
   });
 }
+
+export type GetShelterByIdType = Prisma.ShelterGetPayload<{ include: { animals: true } }> | null
 
 export async function getAllShelters() {
   return prisma.shelter.findMany({

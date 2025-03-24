@@ -1,3 +1,4 @@
+import { Pet } from '@prisma/client';
 import { prisma } from '../lib/prisma';
 
 export async function getAllPets() {
@@ -6,13 +7,7 @@ export async function getAllPets() {
   });
 }
 
-export async function createPet(data: {
-  name: string;
-  age: number;
-  description: string;
-  shelterId: string;
-  imageUrl: string
-}) {
+export async function createPet(data: Omit<Pet, 'id' | 'createdAt'>) {
   return prisma.pet.create({ data });
 }
 

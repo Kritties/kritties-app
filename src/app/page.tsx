@@ -1,34 +1,11 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { Shelter } from "./types/shelter";
-import { useEffect, useState } from "react";
+import PetsSwiper from "@/components/pets-swiper";
 
 export default function Home() {
-  const [shelters, setShelters] = useState<Shelter[]>();
-  const router = useRouter();
-
-  useEffect(() => {
-    fetch("/api/shelters")
-      .then((res) => res.json())
-      .then((data) => setShelters(data));
-  }, []);
-
   return (
-    <>
-      <div>hello this is the list of shelters</div>
-
-      {shelters?.map((shelter) => (
-        <button
-          className="w-full"
-          key={shelter.id}
-          onClick={() => router.push(`/shelters/${shelter.id}`)}
-        >
-          <div className=" border border-gray-200 p-4 m-4">
-            <h1>{shelter.name}</h1>
-          </div>
-        </button>
-      ))}
-    </>
+    <div className="absolute top-0 w-full h-[calc(100%-48px)]">
+      <div className="mx-auto max-w-lg  bg-gray-800 min-w-xs h-full">
+        <PetsSwiper />
+      </div>
+    </div>
   );
 }

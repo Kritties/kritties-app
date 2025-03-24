@@ -24,7 +24,8 @@ model Pet {
   name       String
   age        Int
   description String
-  imageUrl String
+  nftImageUrl String
+  mainImageUrl String
   shelter    Shelter  @relation(fields: [shelterId], references: [id])
   shelterId  String
   createdAt  DateTime @default(now())
