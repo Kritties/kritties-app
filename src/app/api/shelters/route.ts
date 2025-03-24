@@ -8,7 +8,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
     const body = await req.json();
-    const { name, location, description, imageUrl, contractAddress } = body;
+    const { name, location, description, imageUrl, contractAddress, ownerWallet } = body;
 
     if (!name || !location) {
         return NextResponse.json(
@@ -22,7 +22,8 @@ export async function POST(req: Request) {
         location,
         description,
         imageUrl,
-        contractAddress
+        contractAddress,
+        ownerWallet,
     });
     return NextResponse.json(newShelter);
 }
