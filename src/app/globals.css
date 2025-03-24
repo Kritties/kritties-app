@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: false;
-}
+  themes: light --default, abyss --prefersdark, cupcake, dracula;
+};
 
 /* globals.css */
 @font-face {

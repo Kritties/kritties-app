@@ -2,7 +2,7 @@
 
 import { useAccount, usePublicClient } from "wagmi";
 import { getContract, Address, createWalletClient, custom } from "viem";
-import abi from "../abis/kricoin.json";
+import abi from "../artifacts/kricoin.json";
 import { useMemo } from "react";
 import { baseSepolia } from "viem/chains";
 

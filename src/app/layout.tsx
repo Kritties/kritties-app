@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={handjet.className}>
+    <html lang="en" data-theme="light" className={handjet.className}>
       <body className={`antialiased`}>
         <Web3Provider>
           <Topbar />
