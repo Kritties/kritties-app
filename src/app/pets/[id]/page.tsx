@@ -17,7 +17,7 @@ export default function Page() {
     <div className="container mx-auto">
       <img
         className="w-full h-full max-h-[400px] object-cover"
-        src={pet.imageUrl}
+        src={pet.nftImageUrl}
         alt={pet.name}
       />
 

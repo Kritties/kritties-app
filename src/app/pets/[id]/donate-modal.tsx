@@ -2,11 +2,11 @@ import z from "zod";
 import { useState } from "react";
 import { useAccount } from 'wagmi';
 
-import { Pet } from "@/app/types/pet";
 import { Button } from "@/components/button";
 import { useDonationContract } from "@/hooks/useKrittiesContract";
 import { useTokenContract } from "@/hooks/useTokenContract";
 import { contracts, defaultChainId } from "@/utils/contracts";
+import { Pet } from "@prisma/client";
 
 const donationSchema = z.object({
   amount: z.number().min(1, "Donation amount must be greater than 0"),
