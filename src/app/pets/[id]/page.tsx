@@ -13,8 +13,9 @@ export default function Page() {
   if (!pet) {
     return <div>Loading...</div>;
   }
+
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto mpt-[4rem]">
       <img
         className="w-full h-full max-h-[400px] object-cover"
         src={pet.imageUrl}
