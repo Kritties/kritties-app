@@ -5,9 +5,12 @@ import Icons from "./icons";
 import MyAccount from "./my-account";
 import WalletOptions from "./wallet-options";
 import classNames from "classnames";
+import useNetworkSwitch from "@/hooks/useNetworkSwitch";
 
 export default function ConnectButton() {
   const { isConnected } = useAccount();
+
+  useNetworkSwitch();
 
   return (
     <>
