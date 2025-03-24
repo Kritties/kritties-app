@@ -18,3 +18,21 @@ export function useGetPetById(id: string) {
 
   return pet;
 }
+
+
+export function saveDonation(petId: string, wallet: string, amount: number, hash: string) {
+  const data = {
+    petId,
+    wallet,
+    amount,
+    transactionId: hash,
+  };
+
+  fetch("/api/donations", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
