@@ -4,6 +4,7 @@ import { useGetDonationsByUser } from "./get-donations";
 import Link from "next/link";
 import AttributeCard from "@/components/attribute-card";
 import { useMemo } from "react";
+import MyWallet from "@/components/my-wallet";
 
 export default function Page() {
     const router = useRouter();
@@ -33,7 +34,7 @@ export default function Page() {
     return (
         <div className="container mx-auto">
             <div className="p-4 pt-20">
-                <h1>User: {wallet}</h1>
+                <MyWallet />
             </div>
             <div className="p-4 flex items-center space-x-4">
                 <div className="w-1/2">
