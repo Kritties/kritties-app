@@ -8,12 +8,8 @@ import { useMemo } from "react";
 export default function Page() {
     const router = useRouter();
     const params = useParams();
-    const wallet = params.id; // esto te da el param "id"
+    const wallet = params.id;
     const donations = useGetDonationsByUser(wallet as string);
-    console.log("donations", donations, params);
-    const handlePetClick = (petId: string) => {
-        router.push(`/pets/${petId}`);
-    };
 
     if (!donations) {
         return <div>Loading...</div>;
@@ -40,15 +36,19 @@ export default function Page() {
                 <h1>User: {wallet}</h1>
             </div>
             <div className="p-4 flex items-center space-x-4">
-                <AttributeCard
-                    attribute={{
-                        name: "Total Donations: $",
-                        value: totalDonations,
-                    }}
-                />
-                <AttributeCard
-                    attribute={{ name: "Pets helped: ", value: totalPets }}
-                />
+                <div className="w-1/2">
+                    <AttributeCard
+                        attribute={{
+                            name: "Total Donations: $",
+                            value: totalDonations,
+                        }}
+                    />
+                </div>
+                <div className="w-1/2">
+                    <AttributeCard
+                        attribute={{ name: "Pets: ", value: totalPets }}
+                    />
+                </div>
             </div>
             <p>{""}</p>
             <h3 className="mt-8 mb-4 text-center">Pets</h3>
