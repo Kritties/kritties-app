@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "react-loading-skeleton/dist/skeleton.css";
 import { Web3Provider } from "./providers";
 import BottomBar from "@/components/bottom-bar";
 import Topbar from "@/components/top-bar";
