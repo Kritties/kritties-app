@@ -1,7 +1,7 @@
 import React from "react";
 
 export function useGetDonationsByUser(wallet: string) {
-  const [donations, setDonations] = React.useState<any>({});
+  const [donations, setDonations] = React.useState<any>([]);
 
   async function fetchDonations(url: string) {
     const data = await fetch(url).then((res) => res.json());

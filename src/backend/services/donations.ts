@@ -22,23 +22,37 @@ export async function getDonationsByUser(wallet: string) {
 }
 
 export async function getPetsDonationsByUser(wallet: string) {
-    const donations = await prisma.donation.findMany({
-        where: { wallet },
-        include: { pet: true },
-        orderBy: { date: "desc" },
-    });
-    console.log("getPetsDonationsByUser", donations, wallet);
-    const groupedDonations = donations.reduce((acc, donation) => {
-        const petId = donation.petId;
-        if (!acc[petId]) {
-            acc[petId] = [];
-        }
-        acc[petId].push(donation);
-        return acc;
-    }, {} as Record<string, typeof donations>);
+ const donations = await prisma.donation.findMany({
+     where: { wallet },
+     include: { pet: true },
+     orderBy: { date: "desc" },
+ });
 
-    return groupedDonations;
+ const grouped = donations.reduce((acc, donation) => {
+     const petId = donation.petId;
+
+     if (!acc[petId]) {
+         acc[petId] = {
+             pet: donation.pet,
+             totalAmount: 0,
+             donations: [],
+         };
+     }
+
+     acc[petId].totalAmount += donation.amount;
+     acc[petId].donations.push(donation);
+
+     return acc;
+ }, {} as Record<string, {
+     pet: typeof donations[number]['pet'],
+     totalAmount: number,
+     donations: typeof donations,
+ }>);
+
+ // Convertir a array si querés devolverlo como lista
+ return Object.values(grouped);
 }
+
 
 export async function getDonation(id: string) {
     return prisma.donation.findUnique({
