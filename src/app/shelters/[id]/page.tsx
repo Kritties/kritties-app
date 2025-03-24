@@ -61,7 +61,7 @@ export default function Page() {
         {shelter.animals.map((pet) => (
           <button key={pet.id} className="flex flex-col items-center" onClick={() => handlePetClick(pet.id)}>
             <img
-              className="w-[120px] h-[120px]"
+              className="w-[120px] h-[120px] object-cover object-center"
               src={pet.nftImageUrl}
               alt={pet.name}
             />
