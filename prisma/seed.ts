@@ -3,6 +3,8 @@ import { createPet } from "../src/backend/services/pets";
 import { createShelter } from "../src/backend/services/shelters";
 import { createDonation } from "../src/backend/services/donations";
 
+const baseS3URL = "https://kritties-images.s3.us-east-1.amazonaws.com";
+
 async function main() {
     const shelter1 = await createShelter({
         name: "Refugio Huellitas",
@@ -25,7 +27,7 @@ async function main() {
     const shelter3 = await createShelter({
         name: `Doggy Land`,
         location: "Buenos Aires",
-        imageUrl: "/mock-data/shelter-1.png",
+        imageUrl: `${baseS3URL}/shelter-1.png`,
         description:
             "We give rescued dogs love and a chance for a better life. We promote responsible adoption and create lasting bonds between pets and people.",
         contractAddress: "0x1234567890abcdef",
@@ -34,8 +36,8 @@ async function main() {
 
     createPet({
         name: "Liza",
-        mainImageUrl: "/pets/1-big.jpg",
-        nftImageUrl: "/pets/1-small.jpg",
+        mainImageUrl: `${baseS3URL}/pets/1-big.jpg`,
+        nftImageUrl: `${baseS3URL}/pets/1-small.jpg`,
         age: 3,
         description:
             "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -44,8 +46,8 @@ async function main() {
 
     createPet({
         name: "Candy",
-        mainImageUrl: "/pets/2-big.jpg",
-        nftImageUrl: "/pets/2-small.jpg",
+        mainImageUrl: `${baseS3URL}/pets/2-big.jpg`,
+        nftImageUrl: `${baseS3URL}/pets/2-small.jpg`,
         age: 1,
         description:
             "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -54,8 +56,8 @@ async function main() {
 
     createPet({
         name: "Wero",
-        mainImageUrl: "/pets/3-big.jpg",
-        nftImageUrl: "/pets/3-small.jpg",
+        mainImageUrl: `${baseS3URL}/pets/3-big.jpg`,
+        nftImageUrl: `${baseS3URL}/pets/3-small.jpg`,
         age: 8,
         description:
             "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -64,8 +66,8 @@ async function main() {
 
     createPet({
         name: "Tom",
-        mainImageUrl: "/pets/1-big.jpg",
-        nftImageUrl: "/pets/1-small.jpg",
+        mainImageUrl: `${baseS3URL}/pets/1-big.jpg`,
+        nftImageUrl: `${baseS3URL}/pets/1-small.jpg`,
         age: 3,
         description:
             "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -74,8 +76,8 @@ async function main() {
 
     createPet({
         name: "Bongo",
-        mainImageUrl: "/pets/2-big.jpg",
-        nftImageUrl: "/pets/2-small.jpg",
+        mainImageUrl: `${baseS3URL}/pets/2-big.jpg`,
+        nftImageUrl: `${baseS3URL}/pets/2-small.jpg`,
         age: 6,
         description:
             "Tom is a very active dog. He’s very friendly and loving, and likes to run a lot so he needs extra space. Chasing squirrels and running after a stick are his favorite activities!",
@@ -87,8 +89,8 @@ async function main() {
         age: 3,
         description: "Perrita juguetona",
         shelterId: shelter1.id,
-        mainImageUrl: "/pets/3-big.jpg",
-        nftImageUrl: "/pets/3-small.jpg",
+        mainImageUrl: `${baseS3URL}/pets/3-big.jpg`,
+        nftImageUrl: `${baseS3URL}/pets/3-small.jpg`,
     });
 
     await createPet({
@@ -96,8 +98,8 @@ async function main() {
         age: 2,
         description: "Gatito curioso",
         shelterId: shelter2.id,
-        mainImageUrl: "/pets/2-big.jpg",
-        nftImageUrl: "/pets/2-small.jpg",
+        mainImageUrl: `${baseS3URL}/pets/2-big.jpg`,
+        nftImageUrl: `${baseS3URL}/pets/2-small.jpg`,
     });
 
     const pets = await prisma.pet.findMany();
