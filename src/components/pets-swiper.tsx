@@ -9,47 +9,35 @@ import "swiper/css/pagination";
 import "./swiper.css";
 import PixelButton from "@/components/pixel-button";
 import Icons from "@/components/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { GetNextPetsType } from "@/app/api/pets/next/route";
+import PixelButtonLink from "./pixel-button-link";
 
-interface Pet {
-  id: string;
-  name: string;
-  description: string;
-  imageUrl: string;
-  secondImageUrl: string;
-  shelterName: string;
-}
-
-const randBetween = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min);
-
-const pets: Pet[] = Array.from({ length: 20 }, (_, i) => {
-  const imageIndex = randBetween(1, 3)
-  return {
-    id: i.toString(),
-    name: `Pet ${imageIndex}`,
-    description: `Description for Pet`,
-    imageUrl: `/pets/${imageIndex}-big.jpg`,
-    secondImageUrl: `/pets/${imageIndex}-small.jpg`,
-    shelterName: `Shelter`,
-  }
-})
-
-export default function PetsSwiper() {
-  const [currentPets, setCurrentPets] = useState<Pet[]>([]);
+export default function PetsSwiper({
+  pets,
+  nextPets,
+  isLoading,
+}: {
+  pets: GetNextPetsType[];
+  nextPets: () => void;
+  isLoading: boolean;
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    console.log("activeIndex", activeIndex);
+  const flag = useRef(0);
 
-    if (currentPets.length === 0) {
-      setCurrentPets(pets.slice(0, 2));
-    } else if (activeIndex === currentPets.length - 1) {
-      setCurrentPets((prev) => {
-        const newItems = [...prev, ...pets.slice(activeIndex + 1, activeIndex + 2)];
-        return newItems;
-      });
+  useEffect(() => {
+    if (
+      !isLoading &&
+      pets.length > 0 &&
+      flag.current < pets.length &&
+      activeIndex === pets.length - 1
+    ) {
+      flag.current = pets.length;
+      nextPets();
     }
-  }, [activeIndex]);
+  }, [activeIndex, pets.length, isLoading, nextPets]);
 
   return (
     <Swiper
@@ -63,11 +51,11 @@ export default function PetsSwiper() {
         setActiveIndex(e.activeIndex);
       }}
     >
-      {currentPets.map((pet) => (
+      {pets.map((pet) => (
         <SwiperSlide
           key={`pet-${pet.id}`}
           style={{
-            backgroundImage: `url(${pet.imageUrl})`,
+            backgroundImage: `url(${pet.mainImageUrl})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -81,19 +69,23 @@ export default function PetsSwiper() {
           <div className="w-full h-44 rounded-md p-4 bg-[#FAFAF0] flex items-center gap-4">
             <img
               className="!size-36 rounded-md shadow-[3px_3px_0px_0px_#0000001A] object-cover object-center"
-              src={pet.secondImageUrl}
+              src={pet.nftImageUrl}
               alt={pet.name}
             />
             <div className="flex flex-col flex-1 justify-between h-full">
               <div className="flex flex-col">
                 <span className="text-left text-3xl font-bold">{pet.name}</span>
-                <p className="text-left text-sm">{pet.description}</p>
+                <p className="text-left text-sm line-clamp-2 max-w-[ch_100]">
+                  {pet.description}
+                </p>
               </div>
               <div className="flex gap-4 justify-between w-full items-end self-end">
-                <span className="text-left text-md font-bold">{pet.shelterName}</span>
-                <PixelButton>
+                <Link href={`/shelters/${pet.shelterId}`} className="text-left text-md font-bold text-blue-400 underline">
+                  {pet.shelter.name}
+                </Link>
+                <PixelButtonLink href={`/pets/${pet.id}`}>
                   <Icons.NextIcon className="size-5" />
-                </PixelButton>
+                </PixelButtonLink>
               </div>
             </div>
           </div>
