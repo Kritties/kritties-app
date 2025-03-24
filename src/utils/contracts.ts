@@ -1,6 +1,7 @@
-import { baseSepolia } from "wagmi/chains";
+import { base, baseSepolia } from "wagmi/chains";
+import { environment } from "./env";
 
-export const defaultChainId = baseSepolia.id as number;
+export const chainId = environment.IS_TESTNET ? baseSepolia.id : base.id;
 
 export const contracts= {
   [baseSepolia.id as number]: {
