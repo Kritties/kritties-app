@@ -21,7 +21,7 @@ export function useDonationContract(contractAddress?: Address) {
                 abi,
                 client: { public: publicClient!, wallet: walletClient! },
             }),
-        [contractAddress, publicClient]
+        [contractAddress, publicClient, walletClient]
     );
 
     //Deploy functions
