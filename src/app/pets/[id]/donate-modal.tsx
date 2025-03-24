@@ -10,6 +10,7 @@ import { useDonationContract } from "@/hooks/useKrittiesContract";
 import { useTokenContract } from "@/hooks/useTokenContract";
 
 import { chainId, contracts } from "@/utils/contracts";
+import { saveDonation } from "./pet-service";
 
 const donationSchema = z.object({
   amount: z.number().min(1, "Donation amount must be greater than 0"),
@@ -44,9 +45,9 @@ function DonateStep({
       if (allowance < amountConverted) {
         await approve(kritties, BigInt(amountConverted));
       }
-      await donate(paymentToken.address, BigInt(amountConverted));
+      const result = await donate(paymentToken.address, BigInt(amountConverted));
+      await saveDonation(pet.id, donatorAddress, validatedAmount.amount, result.transactionHash);
 
-      // TODO: Proceed with the donation logic...
       onSuccess();
     } catch (err) {
       console.error("Validation error:", err);
