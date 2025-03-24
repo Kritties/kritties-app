@@ -1,25 +1,21 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useCreateShelter } from "./create-shelter";
-import Skeleton from "react-loading-skeleton";
 import { useForm } from "react-hook-form";
 import { useAccount } from "wagmi";
 
 function Loading() {
     return (
-        <div className="container">
-            <div className="w-full flex flex-col items-center space-y-4 p-4">
-                <Skeleton
-                    className="w-full"
-                    width={300}
-                    height={40}
-                    count={5}
-                />
-            </div>
+      <div className="container">
+        <div className="w-full flex flex-col items-center space-y-4 p-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="skeleton w-[300px] h-[40px]"></div>
+          ))}
         </div>
+      </div>
     );
-}
-
+  }
+  
 export default function Page() {
     const router = useRouter();
     const { address } = useAccount();

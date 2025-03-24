@@ -1,5 +1,3 @@
-import Skeleton from "react-loading-skeleton";
-
 type Attribute = {
   name: string;
   value: string;
@@ -20,7 +18,7 @@ export default function AttributeCard({
     <div className="flex items-center justify-between bg-[#9FD8F6] shadow-custom p-4 rounded-md">
       {isLoading && (
         <>
-          <Skeleton  />
+          <div  className="skeleton w-[300px] h-[20px]"></div>
         </>
       )}
 
