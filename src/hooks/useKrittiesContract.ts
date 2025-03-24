@@ -1,17 +1,13 @@
 "use client";
 
 import { useAccount, usePublicClient } from "wagmi";
-import {
-    Address,
-    createWalletClient,
-    getContract,
-    custom,
-} from "viem";
-import abi from "../abis/kritties.json";
+import { Address, createWalletClient, getContract, custom } from "viem";
+import abi from "../artifacts/kritties.json";
 import { useMemo } from "react";
 import { baseSepolia } from "viem/chains";
-
-export function useDonationContract(contractAddress: Address) {
+import { kritties_bytecode } from "../artifacts/kritties_bytecode";
+import { contracts } from "@/utils/contracts";
+export function useDonationContract(contractAddress?: Address) {
     const { address: userAddress } = useAccount();
     const publicClient = usePublicClient();
 
@@ -26,6 +22,7 @@ export function useDonationContract(contractAddress: Address) {
 
     const contract = useMemo(
         () =>
+            contractAddress &&
             getContract({
                 address: contractAddress,
                 abi,
@@ -34,34 +31,64 @@ export function useDonationContract(contractAddress: Address) {
         [contractAddress, publicClient, walletClient]
     );
 
+    //Deploy functions
+
+    async function createShelter(name: string, symbol: string) {
+        if (!walletClient) throw new Error("Wallet not connected");
+
+        const hash = await walletClient.deployContract({
+            abi,
+            bytecode: kritties_bytecode,
+            args: [
+                name,
+                symbol,
+                userAddress!,
+                userAddress!,
+                userAddress!,
+                userAddress!,
+                contracts[baseSepolia.id].kricoin.address,
+            ],
+            account: userAddress!,
+            chain: baseSepolia,
+        });
+
+        const receipt = await publicClient!.waitForTransactionReceipt({ hash });
+        console.log("contract receipt!!", receipt);
+        const contractAddress = receipt.contractAddress;
+
+        if (!contractAddress) throw new Error("Failed to deploy contract");
+
+        return contractAddress;
+    }
+
     // ✅ READ FUNCTIONS
 
     async function getName() {
-        return contract.read.name();
+        return contract?.read.name();
     }
 
     async function getSymbol() {
-        return contract.read.symbol();
+        return contract?.read.symbol();
     }
 
     async function getTokenUri(tokenId: bigint) {
-        return contract.read.tokenURI([tokenId]);
+        return contract?.read.tokenURI([tokenId]);
     }
 
     async function getBalance(owner: Address) {
-        return contract.read.balanceOf([owner]);
+        return contract?.read.balanceOf([owner]);
     }
 
     async function getAllRegistries(tokenId: bigint) {
-        return contract.read.getAllRegistries([tokenId]);
+        return contract?.read.getAllRegistries([tokenId]);
     }
 
     // ✅ WRITE FUNCTIONS (esperando confirmaciones)
 
     async function safeMint(to: Address, uri: string) {
-        if (!walletClient) throw new Error("Wallet not connected");
+        if (!walletClient || !contract) throw new Error("Wallet not connected");
 
-        const hash = await contract.write.safeMint([to, uri], {
+        const hash = await contract?.write.safeMint([to, uri], {
             account: userAddress,
         });
 
@@ -69,9 +96,9 @@ export function useDonationContract(contractAddress: Address) {
     }
 
     async function donate(tokenAddress: Address, amount: bigint) {
-        if (!walletClient) throw new Error("Wallet not connected");
+        if (!walletClient || !contract) throw new Error("Wallet not connected");
 
-        const hash = await contract.write.donate([tokenAddress, amount], {
+        const hash = await contract?.write.donate([tokenAddress, amount], {
             account: userAddress,
         });
 
@@ -79,9 +106,9 @@ export function useDonationContract(contractAddress: Address) {
     }
 
     async function addRegistry(tokenId: bigint, registryUri: string) {
-        if (!walletClient) throw new Error("Wallet not connected");
+        if (!walletClient || !contract) throw new Error("Wallet not connected");
 
-        const hash = await contract.write.addRegistry([tokenId, registryUri], {
+        const hash = await contract?.write.addRegistry([tokenId, registryUri], {
             account: userAddress,
         });
 
@@ -98,5 +125,6 @@ export function useDonationContract(contractAddress: Address) {
         donate,
         addRegistry,
         userAddress,
+        createShelter,
     };
 }

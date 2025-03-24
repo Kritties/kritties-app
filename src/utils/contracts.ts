@@ -11,5 +11,9 @@ export const contracts= {
       address: "0x16760858e6D70D2C1a6657517437Bd0DB4D85171",
       decimals: 18,
     },
+    kricoin: {
+      address: "0x7432A00b4B3Ba1fC9BE489c16A5Da9E7f3b766D8",
+      decimals: 8
+    },
   },
 } as const;
