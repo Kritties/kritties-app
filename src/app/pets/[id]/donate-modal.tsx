@@ -1,6 +1,6 @@
 import z from "zod";
 import { Address } from "viem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { Pet } from "@prisma/client";
 
@@ -25,6 +25,7 @@ function DonateStep({
   donatorAddress: Address;
   onSuccess: () => void;
 }) {
+  const [allowance, setAllowance] = useState<bigint>();
   const [amount, setAmount] = useState<number>(0);
   const [error, setError] = useState<string>("");
 
@@ -33,20 +34,47 @@ function DonateStep({
   const { donate } = useDonationContract(kritties);
   const { approve, getAllowance } = useTokenContract(paymentToken.address);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!donatorAddress || !kritties) return;
+    getAllowance(donatorAddress, kritties).then(setAllowance);
+  }, [donatorAddress, kritties]);
+
+  const handleApprove = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       const validatedAmount = donationSchema.parse({ amount });
       const amountConverted =
         validatedAmount.amount * 10 ** paymentToken.decimals;
-      const allowance = await getAllowance(donatorAddress, kritties);
 
-      if (allowance < amountConverted) {
-        await approve(kritties, BigInt(amountConverted));
+      await approve(kritties, BigInt(amountConverted));
+      setAllowance(BigInt(amountConverted));
+    } catch (err) {
+      console.error("Validation error:", err);
+      if (err instanceof z.ZodError) {
+        setError(err.errors[0].message); // Display the first validation error message
       }
-      const result = await donate(paymentToken.address, BigInt(amountConverted));
-      await saveDonation(pet.id, donatorAddress, validatedAmount.amount, result.transactionHash);
+    }
+  };
+
+  const handleDonate = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const validatedAmount = donationSchema.parse({ amount });
+      const amountConverted =
+        validatedAmount.amount * 10 ** paymentToken.decimals;
+
+      const result = await donate(
+        paymentToken.address,
+        BigInt(amountConverted)
+      );
+      await saveDonation(
+        pet.id,
+        donatorAddress,
+        validatedAmount.amount,
+        result.transactionHash
+      );
 
       onSuccess();
     } catch (err) {
@@ -56,6 +84,9 @@ function DonateStep({
       }
     }
   };
+
+  const amountConverted = BigInt((amount ?? 0).toString()) * BigInt(10 ** paymentToken.decimals);
+  const isAlreadyApproved = !!allowance && amountConverted <= allowance;
 
   return (
     <div className="modal" role="dialog">
@@ -68,7 +99,7 @@ function DonateStep({
           <input
             type="text"
             placeholder="$ 10"
-            className="input h-[40px] bg-[#DDF0FA] input-bordered w-full max-w-xs"
+            className="input h-[40px] bg-[#DDF0FA] input-bordered w-full"
             onChange={(e) => setAmount(+e.target.value)}
           />
           {error && <p className="text-sm! text-red-500!">{error}</p>}
@@ -78,7 +109,8 @@ function DonateStep({
           Make sure the information is correct before sending the funds.
         </p>
 
-        <Button onClick={handleSubmit}>Confirm Donation</Button>
+        {!isAlreadyApproved && <Button onClick={handleApprove}>Approve Donation</Button>}
+        {isAlreadyApproved && <Button onClick={handleDonate}>Confirm Donation</Button>}
         <label
           htmlFor="donate-modal"
           className="w-full h-[40px] p-2 rounded-md bg-green-200 border-4 border-t-green-100 border-l-green-100 border-b-green-300 border-r-green-300 hover:border-green-400 active:border-green-500 focus:outline-none transition shadow-md flex items-center justify-center text-bold"
@@ -90,7 +122,7 @@ function DonateStep({
   );
 }
 
-function ConfirmedStep() {
+function ConfirmedStep({ onSuccess }: { onSuccess: () => void }) {
   return (
     <div className="modal" role="dialog">
       <div className="modal-box relative bottom-0 flex flex-col gap-4 bg-[#9FD8F6] rounded-[1rem]">
@@ -107,6 +139,7 @@ function ConfirmedStep() {
         <label
           htmlFor="donate-modal"
           className="w-full h-[40px] p-2 rounded-md bg-green-200 border-4 border-t-green-100 border-l-green-100 border-b-green-300 border-r-green-300 hover:border-green-400 active:border-green-500 focus:outline-none transition shadow-md flex items-center justify-center text-bold"
+          onClick={onSuccess}
         >
           Continue
         </label>
@@ -142,7 +175,7 @@ export function DonateModal({ pet }: { pet: Pet }) {
         />
       )}
 
-      {step === Stepper.Confirm && <ConfirmedStep />}
+      {step === Stepper.Confirm && <ConfirmedStep onSuccess={() => setStep(Stepper.Donate)} />}
     </>
   );
 }

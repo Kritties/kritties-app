@@ -6,7 +6,7 @@ import { DonateModal } from "./donate-modal";
 
 function Loading() {
   return (
-    <div className="container mx-auto mt-[4rem] gap-4">
+    <div className="container mx-auto gap-4">
       <div className="skeleton h-[400px] w-full"></div>
       <div className="p-4 gap-4">
         <div className="skeleton h-[20px] w-full"></div>
