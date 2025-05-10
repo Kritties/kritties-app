@@ -12,7 +12,7 @@ const config = createConfig({
   transports: {
     [baseSepolia.id]: http(),
   },
-  ssr: true
+  ssr: true,
 })
 
 export default config;

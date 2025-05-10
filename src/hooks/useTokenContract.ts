@@ -1,30 +1,23 @@
 "use client";
 
-import { useAccount, usePublicClient } from "wagmi";
-import { getContract, Address, createWalletClient, custom } from "viem";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { getContract, Address, custom } from "viem";
 import abi from "../artifacts/kricoin.json";
 import { useMemo } from "react";
-import { baseSepolia } from "viem/chains";
 
 export function useTokenContract(contractAddress: Address) {
     const { address: userAddress } = useAccount();
     const publicClient = usePublicClient();
+    const { data: walletClient } = useWalletClient();
 
-    const walletClient = useMemo(
-        () =>
-            createWalletClient({
-                chain: baseSepolia,
-                transport: custom(window.ethereum!),
-            }),
-        [!!window.ethereum]
-    );
+    console.log("walletClient", walletClient)
 
     const contract = useMemo(
         () =>
             getContract({
                 address: contractAddress,
                 abi,
-                client: { public: publicClient!, wallet: walletClient },
+                client: { public: publicClient!, wallet: walletClient! },
             }),
         [contractAddress, publicClient, walletClient]
     );

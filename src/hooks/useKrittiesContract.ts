@@ -1,24 +1,17 @@
 "use client";
 
-import { useAccount, usePublicClient } from "wagmi";
-import { Address, createWalletClient, getContract, custom } from "viem";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { Address, getContract } from "viem";
 import abi from "../artifacts/kritties.json";
 import { useMemo } from "react";
 import { baseSepolia } from "viem/chains";
 import { kritties_bytecode } from "../artifacts/kritties_bytecode";
 import { contracts } from "@/utils/contracts";
+
 export function useDonationContract(contractAddress?: Address) {
     const { address: userAddress } = useAccount();
     const publicClient = usePublicClient();
-
-    const walletClient = useMemo(
-        () =>
-            createWalletClient({
-                chain: baseSepolia,
-                transport: custom(window.ethereum!),
-            }),
-        [!!window.ethereum, userAddress]
-    );
+    const { data: walletClient } = useWalletClient();
 
     const contract = useMemo(
         () =>
@@ -26,7 +19,7 @@ export function useDonationContract(contractAddress?: Address) {
             getContract({
                 address: contractAddress,
                 abi,
-                client: { public: publicClient!, wallet: walletClient },
+                client: { public: publicClient!, wallet: walletClient! },
             }),
         [contractAddress, publicClient, walletClient]
     );
